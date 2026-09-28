@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>College Attendance Marksheet</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #eef3f8;
+      color: #1f2937;
+      padding: 25px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.10);
+    }
+
+    /* Header */
+    .college-header {
+      background: linear-gradient(135deg, #123c69, #1d70b8);
+      color: white;
+      padding: 25px;
+      text-align: center;
+    }
+
+    .college-header .logo {
+      width: 65px;
+      height: 65px;
+      margin: auto;
+      margin-bottom: 10px;
+      border-radius: 50%;
+      background: white;
+      color: #123c69;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .college-header h1 {
+      font-size: 28px;
+      margin-bottom: 6px;
+    }
+
+    .college-header p {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .title {
+      margin-top: 15px;
+      font-size: 19px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Student details */
+    .student-section {
+      padding: 25px;
+    }
+
+    .student-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+    }
+
+    .info-box {
+      background: #f5f8fc;
+      border: 1px solid #dce5ef;
+      border-radius: 10px;
+      padding: 15px;
+    }
+
+    .info-box label {
+      display: block;
+      color: #64748b;
+      font-size: 12px;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+
+    .info-box strong {
+      font-size: 15px;
+      color: #172554;
+    }
+
+    /* Summary */
+    .summary {
+      padding: 0 25px 25px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+    }
+
+    .summary-card {
+      padding: 18px;
+      border-radius: 10px;
+      color: white;
+    }
+
+    .summary-card h3 {
+      font-size: 13px;
+      margin-bottom: 8px;
+      opacity: 0.9;
+    }
+
+    .summary-card p {
+      font-size: 25px;
+      font-weight: bold;
+    }
+
+    .blue {
+      background: #2563eb;
+    }
+
+    .green {
+      background: #16a34a;
+    }
+
+    .red {
+      background: #dc2626;
+    }
+
+    .purple {
+      background: #7c3aed;
+    }
+
+    /* Table */
+    .table-section {
+      padding: 0 25px 25px;
+    }
+
+    .table-title {
+      margin-bottom: 12px;
+      color: #123c69;
+      font-size: 18px;
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 750px;
+    }
+
+    th {
+      background: #123c69;
+      color: white;
+      padding: 13px 10px;
+      font-size: 13px;
+      text-align: center;
+    }
+
+    td {
+      padding: 13px 10px;
+      border-bottom: 1px solid #e5e7eb;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    tbody tr:hover {
+      background: #f8fafc;
+    }
+
+    td:first-child,
+    td:nth-child(2) {
+      text-align: left;
+    }
+
+    .percentage {
+      font-weight: bold;
+    }
+
+    .good {
+      color: #15803d;
+      background: #dcfce7;
+      padding: 6px 10px;
+      border-radius: 20px;
+      display: inline-block;
+    }
+
+    .warning {
+      color: #b45309;
+      background: #fef3c7;
+      padding: 6px 10px;
+      border-radius: 20px;
+      display: inline-block;
+    }
+
+    .danger {
+      color: #b91c1c;
+      background: #fee2e2;
+      padding: 6px 10px;
+      border-radius: 20px;
+      display: inline-block;
+    }
+
+    /* Buttons */
+    .actions {
+      padding: 0 25px 25px;
+      display: flex;
+      gap: 10px;
+    }
+
+    button {
+      border: none;
+      border-radius: 8px;
+      padding: 11px 18px;
+      cursor: pointer;
+      font-weight: bold;
+      color: white;
+      background: #2563eb;
+    }
+
+    button:hover {
+      background: #1d4ed8;
+    }
+
+    .reset {
+      background: #64748b;
+    }
+
+    .reset:hover {
+      background: #475569;
+    }
+
+    /* Footer */
+    .footer {
+      border-top: 1px solid #e5e7eb;
+      padding: 20px 25px;
+      display: flex;
+      justify-content: space-between;
+      color: #64748b;
+      font-size: 12px;
+    }
+
+    .signature {
+      text-align: center;
+      min-width: 180px;
+    }
+
+    .signature-line {
+      border-top: 1px solid #333;
+      margin-top: 35px;
+      padding-top: 5px;
+    }
+
+    /* Search */
+    .search-box {
+      margin-bottom: 15px;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      outline: none;
+    }
+
+    .search-box input:focus {
+      border-color: #2563eb;
+    }
+
+    /* Mobile */
+    @media (max-width: 800px) {
+      body {
+        padding: 10px;
+      }
+
+      .student-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .summary {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .college-header h1 {
+        font-size: 21px;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .student-grid,
+      .summary {
+        grid-template-columns: 1fr;
+      }
+
+      .footer {
+        flex-direction: column;
+        gap: 25px;
+      }
+    }
+
+    /* Print */
+    @media print {
+      body {
+        background: white;
+        padding: 0;
+      }
+
+      .container {
+        box-shadow: none;
+        border-radius: 0;
+        max-width: 100%;
+      }
+
+      .actions,
+      .search-box {
+        display: none;
+      }
+
+      .college-header {
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+      }
+
+      th,
+      .summary-card {
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- College Header -->
+  <header class="college-header">
+    <div class="logo">C</div>
+
+    <h1>YOUR COLLEGE NAME</h1>
+    <p>Department of Computer Science & Engineering</p>
+    <p>Academic Year: 2026 - 2027</p>
+
+    <div class="title">
+      Student Attendance Marksheet
+    </div>
+  </header>
+
+  <!-- Student Information -->
+  <section class="student-section">
+
+    <div class="student-grid">
+
+      <div class="info-box">
+        <label>Student Name</label>
+        <strong>Renisha Patel</strong>
+      </div>
+
+      <div class="info-box">
+        <label>Enrollment No.</label>
+        <strong>2502031000015</strong>
+      </div>
+
+      <div class="info-box">
+        <label>Course</label>
+        <strong>B.Tech / B.E.</strong>
+      </div>
+
+      <div class="info-box">
+        <label>Semester</label>
+        <strong>Semester 1</strong>
+      </div>
+
+      <div class="info-box">
+        <label>Division</label>
+        <strong>A</strong>
+      </div>
+
+      <div class="info-box">
+        <label>Roll No.</label>
+        <strong>15</strong>
+      </div>
+
+      <div class="info-box">
+        <label>Academic Year</label>
+        <strong>2026 - 2027</strong>
+      </div>
+
+      <div class="info-box">
+        <label>Attendance Status</label>
+        <strong id="overallStatus">-</strong>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- Summary -->
+  <section class="summary">
+
+    <div class="summary-card blue">
+      <h3>Total Classes</h3>
+      <p id="totalClasses">0</p>
+    </div>
+
+    <div class="summary-card green">
+      <h3>Present</h3>
+      <p id="totalPresent">0</p>
+    </div>
+
+    <div class="summary-card red">
+      <h3>Absent</h3>
+      <p id="totalAbsent">0</p>
+    </div>
+
+    <div class="summary-card purple">
+      <h3>Overall Attendance</h3>
+      <p id="overallPercentage">0%</p>
+    </div>
+
+  </section>
+
+  <!-- Attendance Table -->
+  <section class="table-section">
+
+    <h2 class="table-title">Subject-wise Attendance</h2>
+
+    <div class="search-box">
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Search subject..."
+        onkeyup="searchSubject()"
+      >
+    </div>
+
+    <div class="table-wrapper">
+
+      <table id="attendanceTable">
+
+        <thead>
+          <tr>
+            <th>Sr. No.</th>
+            <th>Subject</th>
+            <th>Total Classes</th>
+            <th>Present</th>
+            <th>Absent</th>
+            <th>Attendance %</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr>
+            <td>1</td>
+            <td>Mathematics</td>
+            <td>40</td>
+            <td>36</td>
+            <td>4</td>
+            <td class="percentage">90%</td>
+            <td><span class="good">Good</span></td>
+          </tr>
+
+          <tr>
+            <td>2</td>
+            <td>Programming</td>
+            <td>45</td>
+            <td>40</td>
+            <td>5</td>
+            <td class="percentage">88.89%</td>
+            <td><span class="good">Good</span></td>
+          </tr>
+
+          <tr>
+            <td>3</td>
+            <td>Database Management</td>
+            <td>38</td>
+            <td>32</td>
+            <td>6</td>
+            <td class="percentage">84.21%</td>
+            <td><span class="good">Good</span></td>
+          </tr>
+
+          <tr>
+            <td>4</td>
+            <td>Computer Networks</td>
+            <td>42</td>
+            <td>34</td>
+            <td>8</td>
+            <td class="percentage">80.95%</td>
+            <td><span class="good">Good</span></td>
+          </tr>
+
+          <tr>
+            <td>5</td>
+            <td>Operating Systems</td>
+            <td>40</td>
+            <td>29</td>
+            <td>11</td>
+            <td class="percentage">72.50%</td>
+            <td><span class="warning">Warning</span></td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+  </section>
+
+  <!-- Buttons -->
+  <div class="actions">
+    <button onclick="window.print()">🖨 Print Marksheet</button>
+    <button class="reset" onclick="resetSearch()">↻ Reset Search</button>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+
+    <div>
+      <strong>Note:</strong><br>
+      Minimum required attendance is 75%.
+    </div>
+
+    <div class="signature">
+      <div class="signature-line">
+        Class Teacher
+      </div>
+    </div>
+
+    <div class="signature">
+      <div class="signature-line">
+        HOD / Principal
+      </div>
+    </div>
+
+  </footer>
+
+</div>
+
+
+<script>
+
+  // Calculate attendance
+  function calculateAttendance() {
+
+    const rows = document.querySelectorAll("#attendanceTable tbody tr");
+
+    let totalClasses = 0;
+    let totalPresent = 0;
+    let totalAbsent = 0;
+
+    rows.forEach(row => {
+
+      const cells = row.querySelectorAll("td");
+
+      if (cells.length < 7) return;
+
+      const classes = parseInt(cells[2].innerText);
+      const present = parseInt(cells[3].innerText);
+      const absent = parseInt(cells[4].innerText);
+
+      totalClasses += classes;
+      totalPresent += present;
+      totalAbsent += absent;
+
+      const percentage = (present / classes) * 100;
+
+      cells[5].innerText = percentage.toFixed(2) + "%";
+
+      const statusCell = cells[6];
+
+      if (percentage >= 75) {
+
+        statusCell.innerHTML =
+          '<span class="good">Good</span>';
+
+      } else if (percentage >= 65) {
+
+        statusCell.innerHTML =
+          '<span class="warning">Warning</span>';
+
+      } else {
+
+        statusCell.innerHTML =
+          '<span class="danger">Shortage</span>';
+      }
+
+    });
+
+    const overall =
+      totalClasses > 0
+        ? (totalPresent / totalClasses) * 100
+        : 0;
+
+    document.getElementById("totalClasses").innerText =
+      totalClasses;
+
+    document.getElementById("totalPresent").innerText =
+      totalPresent;
+
+    document.getElementById("totalAbsent").innerText =
+      totalAbsent;
+
+    document.getElementById("overallPercentage").innerText =
+      overall.toFixed(2) + "%";
+
+    const status =
+      document.getElementById("overallStatus");
+
+    if (overall >= 75) {
+
+      status.innerText = "Eligible";
+      status.style.color = "#15803d";
+
+    } else {
+
+      status.innerText = "Short Attendance";
+      status.style.color = "#dc2626";
+
+    }
+  }
+
+
+  // Search subjects
+  function searchSubject() {
+
+    const input =
+      document.getElementById("searchInput")
+      .value
+      .toLowerCase();
+
+    const rows =
+      document.querySelectorAll("#attendanceTable tbody tr");
+
+    rows.forEach(row => {
+
+      const subject =
+        row.cells[1].innerText.toLowerCase();
+
+      if (subject.includes(input)) {
+        row.style.display = "";
+      } else {
+        row.style.display = "none";
+      }
+
+    });
+
+  }
+
+
+  // Reset search
+  function resetSearch() {
+
+    document.getElementById("searchInput").value = "";
+
+    const rows =
+      document.querySelectorAll("#attendanceTable tbody tr");
+
+    rows.forEach(row => {
+      row.style.display = "";
+    });
+
+  }
+
+
+  // Run calculation when page loads
+  calculateAttendance();
+
+</script>
+
+</body>
+</html>
